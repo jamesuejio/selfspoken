@@ -1,4 +1,5 @@
 import json
+import time
 from watson_developer_cloud import ToneAnalyzerV3
 
 tone_analyzer = ToneAnalyzerV3(
@@ -13,7 +14,9 @@ tone_analyzer = ToneAnalyzerV3(
  * @returns updated json object of user's mental state
  '''
 def analyze(text):
+    date = time.time()
+    tone = {}
     tone_analyzer_payload = tone_analyzer.tone(text=text)
     tones_payload = tone_analyzer_payload["document_tone"]["tone_categories"] \
         [0]["tones"]
-    for tone in tonedict:
+    return (date, tones_payload)

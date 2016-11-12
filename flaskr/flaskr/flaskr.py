@@ -15,7 +15,7 @@ import cPickle
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
-from analyze import analyze, all_time_tone_analysis
+from analyze import *
 
 
 # create our little application :)
@@ -77,7 +77,7 @@ def show_entries():
     cur = db.execute('select text, time, tones from entries order by id desc')
     entries = cur.fetchall()
     all_time_tone_analysis(entries) # Analysis of entries
-    return render_template('show_entries.html', entries=entries)
+    return render_template('show_entries.html', entries=line_graph(entries))
 
 
 @app.route('/add', methods=['POST'])

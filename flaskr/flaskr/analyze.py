@@ -1,5 +1,6 @@
 import json
 import time
+import cPickle
 from watson_developer_cloud import ToneAnalyzerV3
 
 tone_analyzer = ToneAnalyzerV3(
@@ -23,6 +24,9 @@ def analyze(text):
 
 def all_time_tone_analysis(data):
     all_time_tones = {}
-    for text, time, tone in data:
-        all_time_tones[time] = {"text": text, "tone": tone}
-    return json.dump(all_time_tones)
+    for row in data:
+        text = row['text']
+        time = row['time']
+        tones = cPickle.loads(str(row["tones"]))
+        all_time_tones[time] = {"text": text, "tones": tones}
+    # return json.dump(all_time_tones)

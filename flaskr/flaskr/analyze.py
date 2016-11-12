@@ -29,4 +29,5 @@ def all_time_tone_analysis(data):
         time = row['time']
         tones = cPickle.loads(str(row["tones"]))
         all_time_tones[time] = {"text": text, "tones": tones}
+    print all_time_tones
     # return json.dump(all_time_tones)

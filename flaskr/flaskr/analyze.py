@@ -20,3 +20,9 @@ def analyze(text):
     tones_payload = tone_analyzer_payload["document_tone"]["tone_categories"] \
         [0]["tones"]
     return (date, tones_payload)
+
+def all_time_tone_analysis(data):
+    all_time_tones = {}
+    for text, time, tone in data:
+        all_time_tones[time] = {"text": text, "tone": tone}
+    return json.dump(all_time_tones)

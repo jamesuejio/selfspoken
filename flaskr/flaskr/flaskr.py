@@ -73,9 +73,10 @@ def close_db(error):
 @app.route('/')
 def show_entries():
     db = get_db()
+    db.text_factory = str
     cur = db.execute('select text, time, tones from entries order by id desc')
     entries = cur.fetchall()
-    all_time_tone_analysis(entries)
+    all_time_tone_analysis(entries) # Analysis of entries
     return render_template('show_entries.html', entries=entries)
 
 
@@ -88,7 +89,7 @@ def add_entry():
     analysis = analyze(text)
     bytes = cPickle.dumps(analysis[1], 1)
     db.execute('insert into entries (text, time, tones) values (?, ?, ?)',
-               [text, analysis[0], bytes])
+               [text, analysis[0], str(bytes)])
     db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))

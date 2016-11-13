@@ -15,7 +15,7 @@ import os
 import cPickle
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
-     render_template, flash
+     render_template, flash, jsonify
 from analyze import *
 
 # create our little application :)
@@ -88,6 +88,19 @@ def analyzeWeb():
     cur = db.execute('select text, time, tones from entries order by id desc')
     entries = cur.fetchall()
     return render_template('analyze.html', entries=lineEmotionData(entries))
+
+@app.route('/entry/<date>')
+def show_entry(date):
+    entry = query_db('select text, time, tones from entries where time = ?', [date], one=True)
+    return render_template('entry.html', entry=all_time_tone_analysis([entry])[0])
+
+def query_db(query, args=(), one=False):
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
 
 @app.route('/aggregations', methods=['GET', 'POST'])
 def aggregations():

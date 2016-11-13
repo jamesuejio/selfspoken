@@ -145,3 +145,7 @@ body {
     margin-right: 7vw;
     overflow-y: auto;
 }
+
+.boxed a {
+    color: #337ab7;
+}

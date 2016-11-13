@@ -11,11 +11,13 @@
                                 <h1 class="brand-heading2">Journal</h1>
                                 {% for entry in entries %}
                                     <div class="boxed">
-                                      <div id="textbox", style="clear: both;">
-                                          <p class="alignleft">{{entry}}</p>
-                                          {{' '.join(entries[entry]["text"].split(' ')[:5]) + "..."}}
-                                          <p class="alignright">Mood: {{entries[entry]["mood"]}}</p>
-                                      </div>
+                                      <a href="{{ url_for('show_entry', date=entry) }}">
+                                        <div id="textbox", style="clear: both;">
+                                            <p class="alignleft">{{entry}}</p>
+                                            {{' '.join(entries[entry]["text"].split(' ')[:5]) + "..."}}
+                                            <p class="alignright">Mood: {{entries[entry]["mood"]}}</p>
+                                        </div>
+                                        </a>
                                     </div>
                                 {% endfor %}
                             </div>

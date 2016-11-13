@@ -105,8 +105,8 @@ def line():
 # average over all emotions
 @app.route('/getEmotionVals', methods=['GET'])
 def getEmotionVals():
-    if not session.get('logged_in'):
-        abort(401)
+    # if not session.get('logged_in'):
+    #     abort(401)
     db = get_db()
     db.text_factory = str
     cur = db.execute('select text, time, tones from entries order by id desc')

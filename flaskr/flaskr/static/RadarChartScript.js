@@ -39,7 +39,7 @@ function createGraph(emotionVals) {
 	  h: h,
 	  maxValue: 0.6,
 	  levels: 6,
-	  ExtraWidthX: 0
+	  ExtraWidthX: 300
 	}
 
 	//Call function to draw the Radar chart
@@ -53,7 +53,7 @@ function createGraph(emotionVals) {
 	var svg = d3.select('#body')
 		.selectAll('svg')
 		.append('svg')
-		.attr("width", w)
+		.attr("width", w+300)
 		.attr("height", h)
 }
 

@@ -37,6 +37,5 @@ def line_graph(data):
         text = row['text']
         time = row['time']
         tones = cPickle.loads(str(row["tones"]))
-        print tones[0]
         datadict.append({"date": time, "close": tones[0]['score']})
     return datadict

@@ -86,7 +86,16 @@ def analyzeWeb():
     db = get_db()
     db.text_factory = str
     cur = db.execute('select text, time, tones from entries order by id desc')
-    return render_template('analyze.html')
+    entries = cur.fetchall()
+    return render_template('analyze.html', entries=lineEmotionData(entries))
+
+@app.route('/aggregations', methods=['GET', 'POST'])
+def aggregations():
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    return render_template('aggregations.html', entries=lineEmotionData(entries))
 
 @app.route('/journal')
 def print_entries():
@@ -105,7 +114,6 @@ def print_entries():
                 mood = emotionDict["tone_name"]
         data[time]["mood"] = mood
     return render_template('journal.html', entries=data)
-
 
 # average over all emotions
 @app.route('/getEmotionVals', methods=['GET'])
@@ -140,3 +148,13 @@ def getCurrentData():
             currentTone["Sadness"] = tone["score"]
         # getDailyText(entries[0][0])
     return json.dumps({"text": entries[0][0], "tones": currentTone})
+
+@app.route('/getLineVals', methods=['GET'])
+def getLineVals():
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    # query all emotion values
+    data = lineEmotionData(entries)
+    return json.dumps(data)

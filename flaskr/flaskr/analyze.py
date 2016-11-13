@@ -37,7 +37,7 @@ def lineEmotionData(entries):
         time = row['time']
         tones = cPickle.loads(str(row["tones"]))
         for tone in tones:
-            data[tone['tone_name']].append({"time": time, "count":tone['score']})
+            data[tone['tone_name']].append({"date": str(time), "close":str(tone['score'])})
     return data
 
 def retrieveEmotionData(entries):

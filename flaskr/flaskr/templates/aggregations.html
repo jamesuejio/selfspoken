@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Selfspoken</title>
+
+  <!-- Bootstrap Core CSS -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+  <!-- Theme CSS -->
+  <link href="{{ url_for('static', filename='css/grayscale.min.css')}}" rel="stylesheet">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <!-- animsition.css -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='animsition-master/src/css/animsition.css')}}">
+
+<style>
+::-webkit-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-ms-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+body {
+  overflow: hidden;
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+
+#chart {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+}
+path {
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+</style>
+
+</head>
+
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<style> /* set the CSS */
+
+::-webkit-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-ms-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+body {
+  overflow: hidden;
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+
+#chart {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+}
+
+path {
+    stroke-width: 2;
+    fill: none;
+}
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+</style>
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="animsition">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="/" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000">Self Spoken</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                      <a href="/journal" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Journals</a>
+                    </li>
+                    <li>
+                        <a href="/analyze" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Most Recent</a>
+                    </li>
+                    <li>
+                        <a href="/aggregations" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Aggregations</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </div>
+</nav>
+    <!-- Intro Header -->
+    <header class="intro">
+        <div style="float: left" class="animsition">
+            <div id="body">
+            <div id="chart"></div>
+            </div>
+        </div>
+        <div id="test"style="float: right" class="animsition">
+          <!-- load the d3.js library -->
+          <script src="http://d3js.org/d3.v3.min.js"></script>
+
+          <script>
+
+          // Set the dimensions of the canvas / graph
+          var margin = {top: 100, right: 70, bottom: 30, left: 50},
+          width = 600 - margin.left - margin.right,
+          height = 400 - margin.top - margin.bottom;
+
+          // Parse the date / time
+          var parseDate = d3.time.format("%a %b %d %X %Y").parse;
+
+          // Set the ranges
+          var x = d3.time.scale().range([0, width]);
+          var y = d3.scale.linear().range([height, 0]);
+
+          // Define the axes
+          var xAxis = d3.svg.axis().scale(x)
+          .orient("bottom").ticks(5);
+
+          var yAxis = d3.svg.axis().scale(y)
+          .orient("left").ticks(5);
+
+          // Define the line
+          var valueline = d3.svg.line()
+          .x(function(d) { return x(d.date); })
+          .y(function(d) { return y(d.close); });
+
+          // Adds the svg canvas
+          var svg = d3.select("#test")
+          .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+          rows = {{ entries|tojson }};
+          data1 = rows["Anger"]
+          data2 = rows["Sadness"]
+          data3 = rows["Disgust"]
+          data4 = rows["Fear"]
+          data5 = rows["Joy"]
+          // Get the data
+          // data = [{"date":"Sun Nov 13 01:00:14 2016","close":"58.13"},{"date":"Sun Nov 13 01:15:14 2016","close":"53.98"}];
+
+          //d3.csv("data.csv", function(error, data) {
+          data1.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+          data2.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+
+          data3.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+          data4.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+          data5.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+
+          // Scale the range of the data
+          x.domain(d3.extent(data1, function(d) { return d["date"]; }));
+          y.domain([0, d3.max(data1, function(d) { return d["close"]; })]);
+
+          // Add anger
+          svg.append("path")
+              .attr('stroke', 'red')
+              .attr("d", valueline(data1));
+
+          // Add sadness
+          svg.append("path")
+              .attr('stroke', 'blue')
+              .attr("d", valueline(data2));
+
+          // Add digust
+          svg.append("path")
+              .attr('stroke', 'yellow')
+              .attr("d", valueline(data3));
+
+          // Add fear
+          svg.append("path")
+              .attr('stroke', 'green')
+              .attr("d", valueline(data4));
+
+          // Add joy
+          svg.append("path")
+              .attr('stroke', 'orange')
+              .attr("d", valueline(data5));
+
+          // Add the X Axis
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          // Add the Y Axis
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis);
+
+          svg.append("text")
+          		.attr("transform", "translate(" + (width+3) + "," + y(data1[0]["close"]) + ")")
+          		.attr("dy", ".35em")
+          		.attr("text-anchor", "start")
+          		.style("fill", "red")
+          		.text("Anger");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data2[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "blue")
+              .text("Sadness");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data3[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "yellow")
+              .text("Disgust");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data4[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "green")
+              .text("Fear");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data5[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "orange")
+              .text("Joy");
+          //});
+
+          </script>
+        </div>
+    </header>
+
+    <!-- jQuery -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery.js')}}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+
+    <!-- Theme JavaScript -->
+    <script src="{{ url_for('static', filename='js/grayscale.min.js')}}"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!-- animsition.js -->
+    <script src="{{ url_for('static', filename='animsition-master/src/js/animsition.js')}}"></script>
+
+    <!-- d3 -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+
+    <!-- radarjs -->
+    <script src="{{url_for('static', filename="RadarChart.js")}}"></script>
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
+    <script type="text/javascript" src="{{url_for('static', filename="RadarChartScript.js")}}"></script>
+    <!-- <script src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="lineGraph.js")}}"></script> -->
+    <script>
+        $(document).ready(function() {
+          $(".animsition").animsition({
+            inClass: 'fade-in-up',
+            outClass: 'fade-out-up',
+            inDuration: 1500,
+            outDuration: 800,
+            linkElement: '.animsition-link',
+            // e.g. linkElement: 'a:not([target="_blank"]):not([href^="#"])'
+            loading: true,
+            loadingParentElement: 'body', //animsition wrapper element
+            loadingClass: 'animsition-loading',
+            loadingInner: '', // e.g '<img src="loading.svg" />'
+            timeout: false,
+            timeoutCountdown: 5000,
+            onLoadEvent: true,
+            browser: [ 'animation-duration', '-webkit-animation-duration'],
+            // "browser" option allows you to disable the "animsition" in case the css property in the array is not supported by your browser.
+            // The default setting is to disable the "animsition" in a browser that does not support "animation-duration".
+            overlay : false,
+            overlayClass : 'animsition-overlay-slide',
+            overlayParentElement : 'body',
+            transition: function(url){ window.location.href = url; }
+          });
+        });
+    </script>
+
+</body>
+
+</html>

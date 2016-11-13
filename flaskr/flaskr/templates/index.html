@@ -109,6 +109,10 @@
     margin-top: 16px;
 }
 
+.padme{
+  padding-top: 10px;
+}
+
 </style>
 
 </head>
@@ -116,9 +120,10 @@
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
   <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
       <div class="animsition">
-          <div class="container navbar">
+
+          <div class="container">
               <div class="navbar-header" id="home">
-                  <a href="/" id="title-header" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000">Self Spoken</a>
+                  <a href="/" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000" style = "font-size:20px">Introspection</a>
               </div>
               <!-- Collect the nav links, forms, and other content for toggling -->
               <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
@@ -145,12 +150,19 @@
             <div class="animsition">
                 <div class="container">
                     <div class="row">
+                      <h1 align="center" class="brand-heading">Introspection</h1>
                         <div class="col-md-8 col-md-offset-2">
-                            <h1 class="brand-heading">Self spoken</h1>
+
+
+
                             <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
                               <d1>
                             <dd><textarea name = "text" class="form-control" id="textarea" style="width: 750px; height: 400px;" placeholder = "How are you feeling today?"></textarea>
-                            <dd><input type="submit" class="ghost-button" value="Share">
+
+                              <div class="padme"
+                            <dd><input type="submit" class="ghost-button" value="Remember" >
+                            </div>
+
                             </d1>
                           </form>
                         </div>
@@ -184,8 +196,8 @@
           $(".animsition").animsition({
             inClass: 'fade-in-down',
             outClass: 'fade-out-down',
-            inDuration: 1500,
-            outDuration: 800,
+            inDuration: 1000,
+            outDuration: 500,
             linkElement: '.animsition-link',
             // e.g. linkElement: 'a:not([target="_blank"]):not([href^="#"])'
             loading: true,

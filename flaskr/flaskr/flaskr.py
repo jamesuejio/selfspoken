@@ -92,7 +92,8 @@ def analyzeWeb():
     db = get_db()
     db.text_factory = str
     cur = db.execute('select text, time, tones from entries order by id desc')
-    return render_template('analyze.html')
+    entries = cur.fetchall()
+    return render_template('analyze.html', entries=lineEmotionData(entries))
 
 @app.route('/journal')
 def print_entries():

@@ -84,7 +84,56 @@ path {
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+<style> /* set the CSS */
 
+::-webkit-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-ms-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+body {
+  overflow: hidden;
+  margin: 0;
+  font-size: 14px;
+  font-family: "Helvetica Neue", Helvetica;
+}
+
+#chart {
+  position: absolute;
+  top: 50px;
+  left: 0px;
+}
+
+path {
+    stroke-width: 2;
+    fill: none;
+}
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+</style>
     <!-- Intro Header -->
     <header class="intro">
         <div style="float: left" class="animsition">
@@ -92,8 +141,119 @@ path {
             <div id="chart"></div>
             </div>
         </div>
-        <div style="float: right" class="animsition">
-            <svg id="visualisation" width="1000" height="500"></svg>
+        <div id="test"style="float: right" class="animsition">
+          <!-- load the d3.js library -->
+          <script src="http://d3js.org/d3.v3.min.js"></script>
+
+          <script>
+
+          // Set the dimensions of the canvas / graph
+          var margin = {top: 30, right: 20, bottom: 30, left: 50},
+          width = 600 - margin.left - margin.right,
+          height = 400 - margin.top - margin.bottom;
+
+          // Parse the date / time
+          var parseDate = d3.time.format("%a %b %d %X %Y").parse;
+
+          // Set the ranges
+          var x = d3.time.scale().range([0, width]);
+          var y = d3.scale.linear().range([height, 0]);
+
+          // Define the axes
+          var xAxis = d3.svg.axis().scale(x)
+          .orient("bottom").ticks(5);
+
+          var yAxis = d3.svg.axis().scale(y)
+          .orient("left").ticks(5);
+
+          // Define the line
+          var valueline = d3.svg.line()
+          .x(function(d) { return x(d.date); })
+          .y(function(d) { return y(d.close); });
+
+          // Adds the svg canvas
+          var svg = d3.select("#test")
+          .append("svg")
+              .attr("width", width + margin.left + margin.right)
+              .attr("height", height + margin.top + margin.bottom)
+          .append("g")
+              .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+          rows = {{ entries|tojson }};
+          data1 = rows["Anger"]
+          data2 = rows["Sadness"]
+          data3 = rows["Disgust"]
+          data4 = rows["Fear"]
+          data5 = rows["Joy"]
+          // Get the data
+          // data = [{"date":"Sun Nov 13 01:00:14 2016","close":"58.13"},{"date":"Sun Nov 13 01:15:14 2016","close":"53.98"}];
+
+          //d3.csv("data.csv", function(error, data) {
+          data1.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+          data2.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+
+          data3.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+          data4.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+          data5.forEach(function(d) {
+              d["date"] = parseDate(d["date"]);
+              d["close"] = +d["close"].toString();
+          });
+
+          // Scale the range of the data
+          x.domain(d3.extent(data1, function(d) { return d["date"]; }));
+          y.domain([0, d3.max(data1, function(d) { return d["close"]; })]);
+
+          // Add anger
+          svg.append("path")
+              .attr('stroke', 'red')
+              .attr("d", valueline(data1));
+
+          // Add sadness
+          svg.append("path")
+              .attr('stroke', 'blue')
+              .attr("d", valueline(data2));
+
+          // Add digust
+          svg.append("path")
+              .attr('stroke', 'yellow')
+              .attr("d", valueline(data3));
+
+          // Add fear
+          svg.append("path")
+              .attr('stroke', 'fear')
+              .attr("d", valueline(data4));
+
+          // Add joy
+          svg.append("path")
+              .attr('stroke', 'orange')
+              .attr("d", valueline(data5));
+
+          // Add the X Axis
+          svg.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + height + ")")
+              .call(xAxis);
+
+          // Add the Y Axis
+          svg.append("g")
+              .attr("class", "y axis")
+              .call(yAxis);
+
+          //});
+
+          </script>
         </div>
     </header>
 
@@ -123,8 +283,8 @@ path {
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
     <script type="text/javascript" src="{{url_for('static', filename="RadarChartScript.js")}}"></script>
-    <script src="{{url_for('static', filename="lineGraph.js")}}"></script>
-    <script type="text/javascript" src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <!-- <script src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="lineGraph.js")}}"></script> -->
     <script>
         $(document).ready(function() {
           $(".animsition").animsition({

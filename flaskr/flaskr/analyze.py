@@ -15,8 +15,7 @@ tone_analyzer = ToneAnalyzerV3(
  * @returns updated json object of user's mental state
  '''
 def analyze(text):
-    date = time.time()
-    tone = {}
+    date = time.asctime( time.localtime(time.time()) )
     tone_analyzer_payload = tone_analyzer.tone(text=text)
     tones_payload = tone_analyzer_payload["document_tone"]["tone_categories"] \
         [0]["tones"]
@@ -29,5 +28,14 @@ def all_time_tone_analysis(data):
         time = row['time']
         tones = cPickle.loads(str(row["tones"]))
         all_time_tones[time] = {"text": text, "tones": tones}
-    print all_time_tones
+    # print all_time_tones
     # return json.dump(all_time_tones)
+
+def line_graph(data):
+    datadict = []
+    for row in data:
+        text = row['text']
+        time = row['time']
+        tones = cPickle.loads(str(row["tones"]))
+        datadict.append({"date": time, "close": tones[0]['score']})
+    return datadict

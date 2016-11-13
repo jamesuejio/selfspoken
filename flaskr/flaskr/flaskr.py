@@ -15,7 +15,7 @@ import cPickle
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
-from analyze import analyze, all_time_tone_analysis
+from analyze import *
 
 
 # create our little application :)
@@ -72,12 +72,7 @@ def close_db(error):
 
 @app.route('/')
 def show_entries():
-    db = get_db()
-    db.text_factory = str
-    cur = db.execute('select text, time, tones from entries order by id desc')
-    entries = cur.fetchall()
-    all_time_tone_analysis(entries) # Analysis of entries
-    return render_template('show_entries.html', entries=entries)
+    return render_template('index.html')
 
 
 @app.route('/add', methods=['POST'])
@@ -92,8 +87,15 @@ def add_entry():
                [text, analysis[0], str(bytes)])
     db.commit()
     flash('New entry was successfully posted')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('analyzeWeb'))
 
+@app.route('/analyze', methods=['GET', 'POST'])
+def analyzeWeb():
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    return render_template('analyze.html', entries=line_graph(entries))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

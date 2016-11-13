@@ -56,6 +56,38 @@
     text-align: center;
     font-size: 20px;
 }
+
+.brand-heading {
+    color: black;
+    opacity: .37;
+    margin-bottom: 25px;
+}
+
+.ghost-button {
+    font-size: 16px;
+    margin-top: 10px;
+    display: inline-block;
+    width: 300px;
+    padding: 16px;
+    color: black;
+    opacity: .67;
+    border: 1px solid #fff;
+    text-align: center;
+    outline: none;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-out,
+              color 0.2s ease-out;
+}
+
+.ghost-button:hover,
+.ghost-button:active {
+  background-color: #fff;
+  color: #000;
+  transition: background-color 0.3s ease-in,
+              color 0.3s ease-in;
+}
+
 </style>
 
 </head>
@@ -63,7 +95,7 @@
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
   <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
       <div class="animsition">
-          <div class="container">
+          <div class="container navbar">
               <div class="navbar-header">
                   <a href="/" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000">Self Spoken</a>
               </div>
@@ -97,7 +129,7 @@
                             <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
                               <d1>
                             <dd><textarea name = "text" class="form-control" id="textarea" style="width: 750px; height: 400px;" placeholder = "How are you feeling today?"></textarea>
-                            <dd><input type="submit" value="Share">
+                            <dd><input type="submit" class="ghost-button" value="Share">
                             </d1>
                           </form>
                         </div>

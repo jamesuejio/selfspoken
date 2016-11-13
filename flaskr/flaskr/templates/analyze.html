@@ -67,6 +67,18 @@ body {
   top: 50px;
   left: 0px;
 }
+path {
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
 </style>
 
 </head>
@@ -75,13 +87,15 @@ body {
 
     <!-- Intro Header -->
     <header class="intro">
-        <div class="animsition">
+        <div style="float: left" class="animsition">
             <div id="body">
             <div id="chart"></div>
             </div>
         </div>
+        <div style="float: right" class="animsition">
+            <svg id="visualisation" width="1000" height="500"></svg>
+        </div>
     </header>
-
 
     <!-- jQuery -->
     <script src="{{ url_for('static', filename='vendor/jquery/jquery.js')}}"></script>
@@ -109,6 +123,8 @@ body {
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
     <script type="text/javascript" src="{{url_for('static', filename="RadarChartScript.js")}}"></script>
+    <script src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="lineGraph.js")}}"></script>
     <script>
         $(document).ready(function() {
           $(".animsition").animsition({

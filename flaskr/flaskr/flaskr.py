@@ -94,13 +94,23 @@ def analyzeWeb():
     cur = db.execute('select text, time, tones from entries order by id desc')
     return render_template('analyze.html')
 
-@app.route('/line')
-def line():
+@app.route('/journal')
+def print_entries():
     db = get_db()
     db.text_factory = str
     cur = db.execute('select text, time, tones from entries order by id desc')
     entries = cur.fetchall()
-    return render_template('line.html', entries=all_time_tone_analysis(entries))
+    data = retrieveEmotionData(entries)
+    for time in data:
+        emotions = data[time]["tones"]
+        maxScore = 0
+        mood = ""
+        for emotionDict in emotions:
+            if emotionDict["score"] >= maxScore:
+                maxScore = emotionDict["score"]
+                mood = emotionDict["tone_name"]
+        data[time]["mood"] = mood
+    return render_template('journal.html', entries=data)
 
 # average over all emotions
 @app.route('/getEmotionVals', methods=['GET'])
@@ -112,3 +122,13 @@ def getEmotionVals():
     # query all emotion values
     data = retrieveEmotionData(entries)
     return json.dumps(averageEmotionValues(data))
+
+@app.route('/getLineVals', methods=['GET'])
+def getLineVals():
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    # query all emotion values
+    data = lineEmotionData(entries)
+    return json.dumps(data)

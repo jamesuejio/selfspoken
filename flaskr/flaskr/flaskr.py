@@ -95,7 +95,7 @@ def analyzeWeb():
     db.text_factory = str
     cur = db.execute('select text, time, tones from entries order by id desc')
     entries = cur.fetchall()
-    return render_template('analyze.html', entries=line_graph(entries))
+    return render_template('analyze.html', entries=all_time_tone_analysis(entries))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

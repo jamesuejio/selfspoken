@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Intro Header -->
+<header class="intro">
+    <div class="animsition">
+        <div class="analysis-container">
+          <div id="chart"></div>
+          <div id="dailystats"></div>
+        </div>
+    </div>
+</header>
+
+{% endblock %}
+
+{% block scripts %}
+  <!-- d3 -->
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <!-- radarjs -->
+  <script src="{{url_for('static', filename="RadarChart.js")}}"></script>
+  <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+  <script>
+    var w = 500,
+        h = 500;
+
+      var colorscale = d3.scale.category10();
+      var currentText = "";
+
+      var entry = {{entry|tojson}};
+      console.log(entry);
+      console.log(entry["text"]);
+      createGraph(entry["tones"]);
+      currentText = entry["text"];
+      showStats(currentText);
+
+      function showStats(text) {
+        $('#dailystats').append(text);
+      };
+
+      function createGraph(array) {
+        axes = [];
+        for(var i = 0; i < array.length; i++){
+          var obj = array[i]
+          console.log(obj)
+          var emotion = obj["tone_name"];
+          var attrValue = obj["score"];
+            axes.push({axis:emotion, value:attrValue});
+        }
+        // console.log(axes);
+        var d = [axes];
+
+        //Options for the Radar chart, other than default
+        var mycfg = {
+          w: w,
+          h: h,
+          maxValue: 0.6,
+          levels: 6,
+          ExtraWidthX: 200
+        }
+
+        //Call function to draw the Radar chart
+        //Will expect that data is in %'s
+        RadarChart.draw("#chart", d, mycfg);
+
+        ////////////////////////////////////////////
+        /////////// Initiate legend ////////////////
+        ////////////////////////////////////////////
+
+        var svg = d3.select('#body')
+          .selectAll('svg')
+          .append('svg')
+          .attr("width", w)
+          .attr("height", h)
+      }
+
+  </script>
+{% endblock %}

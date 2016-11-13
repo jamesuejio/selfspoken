@@ -96,51 +96,51 @@ def add_entry():
     return redirect(url_for('show_entries'))
 
 # average over all emotions
-# @app.route('/getEmotionVals', methods=['GET'])
-# def getEmotionVals():
-#     if not session.get('logged_in'):
-#         abort(401)
-#     db = get_db()
-#     db.text_factory = str
-#     cur = db.execute('select text, time, tones from entries order by id desc')
-#     entries = cur.fetchall()
-#     # query all emotion values
-#     data = retrieveEmotionData(entries)
-#     return json.dumps(averageEmotionValues(data))
+@app.route('/getEmotionVals', methods=['GET'])
+def getEmotionVals():
+    if not session.get('logged_in'):
+        abort(401)
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    # query all emotion values
+    data = retrieveEmotionData(entries)
+    return json.dumps(averageEmotionValues(data))
 
-# def retrieveEmotionData(entries):
-#     data = {}
-#     for row in entries:
-#         text = row['text']
-#         time = row['time']
-#         tones = cPickle.loads(str(row["tones"]))
-#     data[time] = {"text": text, "tones": tones}
-#     return data
+def retrieveEmotionData(entries):
+    data = {}
+    for row in entries:
+        text = row['text']
+        time = row['time']
+        tones = cPickle.loads(str(row["tones"]))
+        data[time] = {"text": text, "tones": tones}
+    return data
 
-# def averageEmotionValues(data):
-#     angerTotal = 0
-#     disgustTotal = 0
-#     fearTotal = 0
-#     joyTotal = 0
-#     sadnessTotal = 0
-#     for time in data:
-#         toneDicts = data[time]["tones"]
-#         for toneDict in toneDicts:
-#             if toneDict["tone_id"] == anger:
-#                 angerTotal += toneDict["score"]
-#             if toneDict["tone_id"] == disgust:
-#                 disgustTotal += toneDict["score"]
-#             if toneDict["tone_id"] == fear:
-#                 fearTotal += toneDict["score"]
-#             if toneDict["tone_id"] == joy:
-#                 joyTotal += toneDict["score"]
-#             if toneDict["tone_id"] == sadness:
-#                 sadnessTotal += toneDict["score"]
-#     emotionValues = {"anger": angerTotal, "disgust": disgustTotal, "fear": fearTotal, "joy": joyTotal, "sadness": sadnessTotal}
-#     for emotionValue in emotionValues:
-        
-
-
+def averageEmotionValues(data):
+    angerTotal = 0
+    disgustTotal = 0
+    fearTotal = 0
+    joyTotal = 0
+    sadnessTotal = 0
+    for time in data:
+        toneDicts = data[time]["tones"]
+        for toneDict in toneDicts:
+            print toneDict["score"]
+            if toneDict["tone_id"] == "anger":
+                angerTotal += toneDict["score"]
+            if toneDict["tone_id"] == "disgust":
+                disgustTotal += toneDict["score"]
+            if toneDict["tone_id"] == "fear":
+                fearTotal += toneDict["score"]
+            if toneDict["tone_id"] == "joy":
+                joyTotal += toneDict["score"]
+            if toneDict["tone_id"] == "sadness":
+                sadnessTotal += toneDict["score"]
+    emotionValues = {"Anger": angerTotal, "Disgust": disgustTotal, "Fear": fearTotal, "Joy": joyTotal, "Sadness": sadnessTotal}
+    for emotion in emotionValues:
+        emotionValues[emotion] /= (len(data) or 1)
+    return emotionValues
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

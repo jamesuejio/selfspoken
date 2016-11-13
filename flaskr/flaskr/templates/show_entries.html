@@ -21,9 +21,6 @@ body {
 </div>
 
 <script type="text/javascript" src="{{url_for('static', filename="RadarChartScript.js")}}"></script>
-<script type="text/javascript">
-            data = receiveData({{entries|tojson}})
-         </script>
 
   {% if session.logged_in %}
     <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">

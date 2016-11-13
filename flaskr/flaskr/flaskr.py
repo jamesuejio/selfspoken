@@ -16,6 +16,7 @@ from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from analyze import analyze, all_time_tone_analysis
+import json
 
 
 # create our little application :)
@@ -94,12 +95,51 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
 
-@app.route('/getEmotionVals', methods=['GET'])
-def getEmotionVals():
-    if not session.get('logged_in'):
-        abort(401)
-    db = get_db()
-    
+# average over all emotions
+# @app.route('/getEmotionVals', methods=['GET'])
+# def getEmotionVals():
+#     if not session.get('logged_in'):
+#         abort(401)
+#     db = get_db()
+#     db.text_factory = str
+#     cur = db.execute('select text, time, tones from entries order by id desc')
+#     entries = cur.fetchall()
+#     # query all emotion values
+#     data = retrieveEmotionData(entries)
+#     return json.dumps(averageEmotionValues(data))
+
+# def retrieveEmotionData(entries):
+#     data = {}
+#     for row in entries:
+#         text = row['text']
+#         time = row['time']
+#         tones = cPickle.loads(str(row["tones"]))
+#     data[time] = {"text": text, "tones": tones}
+#     return data
+
+# def averageEmotionValues(data):
+#     angerTotal = 0
+#     disgustTotal = 0
+#     fearTotal = 0
+#     joyTotal = 0
+#     sadnessTotal = 0
+#     for time in data:
+#         toneDicts = data[time]["tones"]
+#         for toneDict in toneDicts:
+#             if toneDict["tone_id"] == anger:
+#                 angerTotal += toneDict["score"]
+#             if toneDict["tone_id"] == disgust:
+#                 disgustTotal += toneDict["score"]
+#             if toneDict["tone_id"] == fear:
+#                 fearTotal += toneDict["score"]
+#             if toneDict["tone_id"] == joy:
+#                 joyTotal += toneDict["score"]
+#             if toneDict["tone_id"] == sadness:
+#                 sadnessTotal += toneDict["score"]
+#     emotionValues = {"anger": angerTotal, "disgust": disgustTotal, "fear": fearTotal, "joy": joyTotal, "sadness": sadnessTotal}
+#     for emotionValue in emotionValues:
+        
+
 
 
 @app.route('/login', methods=['GET', 'POST'])

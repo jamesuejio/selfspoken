@@ -10,13 +10,13 @@
     :license: BSD, see LICENSE for more details.
 """
 
+
 import os
 import cPickle
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from analyze import *
-
 
 # create our little application :)
 app = Flask(__name__)
@@ -38,7 +38,6 @@ def connect_db():
     rv.row_factory = sqlite3.Row
     return rv
 
-
 def init_db():
     """Initializes the database."""
     db = get_db()
@@ -46,13 +45,11 @@ def init_db():
         db.cursor().executescript(f.read())
     db.commit()
 
-
 @app.cli.command('initdb')
 def initdb_command():
     """Creates the database tables."""
     init_db()
     print('Initialized the database.')
-
 
 def get_db():
     """Opens a new database connection if there is none yet for the
@@ -62,13 +59,11 @@ def get_db():
         g.sqlite_db = connect_db()
     return g.sqlite_db
 
-
 @app.teardown_appcontext
 def close_db(error):
     """Closes the database again at the end of the request."""
     if hasattr(g, 'sqlite_db'):
         g.sqlite_db.close()
-
 
 @app.route('/')
 def show_entries():
@@ -130,6 +125,29 @@ def getEmotionVals():
     # query all emotion values
     data = retrieveEmotionData(entries)
     return json.dumps(averageEmotionValues(data))
+
+@app.route('/getCurrentData', methods=['GET'])
+def getCurrentData():
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    tones = cPickle.loads(str(entries[0][2]))
+    currentTone = {}
+
+    for tone in tones:
+        if tone["tone_id"] == "anger":
+            currentTone["Anger"] = tone["score"]
+        if tone["tone_id"] == "disgust":
+            currentTone["Disgust"] = tone["score"]
+        if tone["tone_id"] == "fear":
+            currentTone["Fear"] = tone["score"]
+        if tone["tone_id"] == "joy":
+            currentTone["Joy"] = tone["score"]
+        if tone["tone_id"] == "sadness":
+            currentTone["Sadness"] = tone["score"]
+        # getDailyText(entries[0][0])
+    return json.dumps({"text": entries[0][0], "tones": currentTone})
 
 @app.route('/getLineVals', methods=['GET'])
 def getLineVals():

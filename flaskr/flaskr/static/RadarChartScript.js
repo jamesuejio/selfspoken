@@ -9,7 +9,6 @@ var colorscale = d3.scale.category10();
 // var emotionVals;
 
 $.getJSON($SCRIPT_ROOT + '/getEmotionVals', function (data) {
-	console.log(data);
   createGraph(data);
 });
 
@@ -39,7 +38,7 @@ function createGraph(emotionVals) {
 	  h: h,
 	  maxValue: 0.6,
 	  levels: 6,
-	  ExtraWidthX: 300
+	  ExtraWidthX: 200
 	}
 
 	//Call function to draw the Radar chart

@@ -74,7 +74,6 @@ def close_db(error):
 def show_entries():
     return render_template('index.html')
 
-
 @app.route('/add', methods=['POST'])
 def add_entry():
     db = get_db()

@@ -134,6 +134,31 @@ path {
 }
 
 </style>
+<nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+    <div class="animsition">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="/" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000">Self Spoken</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                      <a href="/journal" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Journals</a>
+                    </li>
+                    <li>
+                        <a href="/analyze" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Most Recent</a>
+                    </li>
+                    <li>
+                        <a href="/analyze" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Aggregations</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </div>
+</nav>
     <!-- Intro Header -->
     <header class="intro">
         <div style="float: left" class="animsition">
@@ -148,7 +173,7 @@ path {
           <script>
 
           // Set the dimensions of the canvas / graph
-          var margin = {top: 30, right: 20, bottom: 30, left: 50},
+          var margin = {top: 100, right: 70, bottom: 30, left: 50},
           width = 600 - margin.left - margin.right,
           height = 400 - margin.top - margin.bottom;
 
@@ -232,7 +257,7 @@ path {
 
           // Add fear
           svg.append("path")
-              .attr('stroke', 'fear')
+              .attr('stroke', 'green')
               .attr("d", valueline(data4));
 
           // Add joy
@@ -251,6 +276,36 @@ path {
               .attr("class", "y axis")
               .call(yAxis);
 
+          svg.append("text")
+          		.attr("transform", "translate(" + (width+3) + "," + y(data1[0]["close"]) + ")")
+          		.attr("dy", ".35em")
+          		.attr("text-anchor", "start")
+          		.style("fill", "red")
+          		.text("Anger");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data2[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "blue")
+              .text("Sadness");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data3[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "yellow")
+              .text("Disgust");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data4[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "green")
+              .text("Fear");
+          svg.append("text")
+              .attr("transform", "translate(" + (width+3) + "," + y(data5[0]["close"]) + ")")
+              .attr("dy", ".35em")
+              .attr("text-anchor", "start")
+              .style("fill", "orange")
+              .text("Joy");
           //});
 
           </script>

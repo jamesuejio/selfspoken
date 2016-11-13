@@ -30,6 +30,16 @@ def all_time_tone_analysis(data):
         datadict.append({"date": time, "text": text, "tones": tones})
     return datadict
 
+def lineEmotionData(entries):
+    data = {'Anger':[], 'Disgust':[], 'Fear':[], 'Joy':[], 'Sadness':[]}
+    for row in entries:
+        text = row['text']
+        time = row['time']
+        tones = cPickle.loads(str(row["tones"]))
+        for tone in tones:
+            data[tone['tone_name']].append({"time": time, "count":tone['score']})
+    return data
+
 def retrieveEmotionData(entries):
     data = {}
     for row in entries:

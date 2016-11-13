@@ -32,6 +32,8 @@
   <!-- animsition.css -->
   <link rel="stylesheet" href="{{ url_for('static', filename='animsition-master/src/css/animsition.css')}}">
 
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/daily.css')}}">
+
 <style>
 ::-webkit-input-placeholder {
     color: red;
@@ -67,6 +69,17 @@ body {
   top: 50px;
   left: 0px;
 }
+
+#dailystats {
+  position: absolute;
+  top: 50px;
+  right: 0px;
+  width: 500px;
+  height: 500px;
+  right: 20px;
+  /*border: 10px solid blue;*/
+  font-size: 30px;
+}
 </style>
 
 </head>
@@ -78,6 +91,8 @@ body {
         <div class="animsition">
             <div id="body">
             <div id="chart"></div>
+            <!-- <p> {{entry}} </p> -->
+            <div id="dailystats"></div>
             </div>
         </div>
     </header>

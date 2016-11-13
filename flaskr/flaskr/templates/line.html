@@ -3,58 +3,72 @@
 
 <head>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <title>Selfspoken</title>
+  <title>Selfspoken</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <!-- Bootstrap Core CSS -->
+  <link href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
-    <!-- Custom Fonts -->
-    <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <!-- Custom Fonts -->
+  <link href="{{ url_for('static', filename='vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
-    <!-- Theme CSS -->
-    <link href="{{ url_for('static', filename='css/grayscale.min.css')}}" rel="stylesheet">
+  <!-- Theme CSS -->
+  <link href="{{ url_for('static', filename='css/grayscale.min.css')}}" rel="stylesheet">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
 
-    <!-- animsition.css -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='animsition-master/src/css/animsition.css')}}">
-
+  <!-- animsition.css -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='animsition-master/src/css/animsition.css')}}">
 
 <style>
 ::-webkit-input-placeholder {
-    color: #c2c6ce;
+    color: red;
     text-align: center;
     font-size: 20px;
 }
 :-moz-placeholder {
     /* Firefox 18- */
-    color: #c2c6ce;
+    color: red;
     text-align: center;
     font-size: 20px;
 }
 ::-moz-placeholder {
     /* Firefox 19+ */
-    color: #c2c6ce;
+    color: red;
     text-align: center;
     font-size: 20px;
 }
 :-ms-input-placeholder {
-    color: #c2c6ce;
+    color: red;
     text-align: center;
     font-size: 20px;
+}
+body { font: 12px Arial;}
+
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
 }
 </style>
 
@@ -64,22 +78,8 @@
 
     <!-- Intro Header -->
     <header class="intro">
-        <div class="intro-body">
-            <div class="animsition">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <h1 class="brand-heading">Self spoken</h1>
-                            <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-                              <d1>
-                            <dd><textarea name = "text" class="form-control" id="textarea" style="width: 750px; height: 400px;" placeholder = "How are you feeling today?"></textarea>
-                            <dd><input type="submit" value="Share">
-                            </d1>
-                          </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="animsition">
+            <svg id="visualisation" width="1000" height="500"></svg>
         </div>
     </header>
 
@@ -101,12 +101,21 @@
     <!-- animsition.js -->
     <script src="{{ url_for('static', filename='animsition-master/src/js/animsition.js')}}"></script>
 
+    <!-- d3 -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
 
+    <!-- radarjs -->
+    <script src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <script type="text/javascript">
+                data = receiveData({{entries|tojson}})
+             </script>
     <script>
         $(document).ready(function() {
+
           $(".animsition").animsition({
-            inClass: 'fade-in-down',
-            outClass: 'fade-out-down',
+            inClass: 'fade-in-up',
+            outClass: 'fade-out-up',
             inDuration: 1500,
             outDuration: 800,
             linkElement: '.animsition-link',
@@ -128,8 +137,6 @@
           });
         });
     </script>
-
-
 
 </body>
 

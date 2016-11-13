@@ -3,43 +3,61 @@ var w = 500,
 
 var colorscale = d3.scale.category10();
 
-function receiveData(data) {
-	console.log(data)
-	return data
+//Legend titles
+// var LegendOptions = ['Smartphone','Tablet'];
+//
+// var emotionVals;
+
+$.getJSON($SCRIPT_ROOT + '/getEmotionVals', function (data) {
+	console.log(data);
+  createGraph(data);
+});
+
+function createGraph(emotionVals) {
+	axes = [];
+	for (var key in emotionVals){
+		var attrValue = emotionVals[key];
+	    axes.push({axis:key, value:attrValue});
+	}
+	// console.log(axes);
+	var d = [axes];
+
+	//Data
+	// var d = [
+	// 	[
+	// 		{axis:"Anger", value:0.59},
+	// 		{axis:"Disgust", value:0.32},
+	// 		{axis:"Fear", value:0.12},
+	// 		{axis:"Joy", value:0.67},
+	// 		{axis:"Sadness", value:.44}
+	// 	]
+	// ]
+
+	//Options for the Radar chart, other than default
+	var mycfg = {
+	  w: w,
+	  h: h,
+	  maxValue: 0.6,
+	  levels: 6,
+	  ExtraWidthX: 0
+	}
+
+	//Call function to draw the Radar chart
+	//Will expect that data is in %'s
+	RadarChart.draw("#chart", d, mycfg);
+
+	////////////////////////////////////////////
+	/////////// Initiate legend ////////////////
+	////////////////////////////////////////////
+
+	var svg = d3.select('#body')
+		.selectAll('svg')
+		.append('svg')
+		.attr("width", w)
+		.attr("height", h)
 }
-//Data
-var d = [
-	[
-		{axis:"Anger", value:0.59},
-		{axis:"Disgust", value:0.32},
-		{axis:"Fear", value:0.12},
-		{axis:"Joy", value:0.67},
-		{axis:"Sadness", value:.44}
-	]
-]
 
-//Options for the Radar chart, other than default
-var mycfg = {
-  w: w,
-  h: h,
-  maxValue: 0.6,
-  levels: 6,
-  ExtraWidthX: 300
-}
 
-//Call function to draw the Radar chart
-//Will expect that data is in %'s
-RadarChart.draw("#chart", d, mycfg);
-
-////////////////////////////////////////////
-/////////// Initiate legend ////////////////
-////////////////////////////////////////////
-
-var svg = d3.select('#body')
-	.selectAll('svg')
-	.append('svg')
-	.attr("width", w+300)
-	.attr("height", h)
 
 //Create the title for the legend
 // var text = svg.append("text")

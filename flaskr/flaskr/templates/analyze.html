@@ -30,7 +30,11 @@
   <![endif]-->
 
   <!-- animsition.css -->
+<<<<<<< HEAD
+  <link rel="stylesheet" href="{{ url_for('static', filename='animsition-master/src/css/animsition.css')}}">
+=======
   <link rel="stylesheet" href="{{ url_for('static', filename='animsition-master/src/css/animsition.min.css')}}">
+>>>>>>> master
 
 <style>
 ::-webkit-input-placeholder {
@@ -64,7 +68,7 @@ body {
 
 #chart {
   position: absolute;
-  top: 100px;
+  top: 50px;
   left: 0px;
 }
 </style>
@@ -98,17 +102,17 @@ body {
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <!-- animsition.js -->
-    <script src="{{ url_for('static', filename='animsition-master/src/js/animsition.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='animsition-master/src/js/animsition.js')}}"></script>
 
     <!-- d3 -->
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <!-- radarjs -->
     <script src="{{url_for('static', filename="RadarChart.js")}}"></script>
+    <script type=text/javascript>
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
     <script type="text/javascript" src="{{url_for('static', filename="RadarChartScript.js")}}"></script>
-    <script type="text/javascript">
-                data = receiveData({{entries|tojson}})
-             </script>
     <script>
         $(document).ready(function() {
           $(".animsition").animsition({

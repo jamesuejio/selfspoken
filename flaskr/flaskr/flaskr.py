@@ -94,6 +94,14 @@ def analyzeWeb():
     entries = cur.fetchall()
     return render_template('analyze.html', entries=lineEmotionData(entries))
 
+@app.route('/aggregations', methods=['GET', 'POST'])
+def aggregations():
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    return render_template('aggregations.html', entries=lineEmotionData(entries))
+
 @app.route('/journal')
 def print_entries():
     db = get_db()

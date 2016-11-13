@@ -29,3 +29,36 @@ def all_time_tone_analysis(data):
         tones = cPickle.loads(str(row["tones"]))
         datadict.append({"date": time, "text": text, "tones": tones})
     return datadict
+
+def retrieveEmotionData(entries):
+    data = {}
+    for row in entries:
+        text = row['text']
+        time = row['time']
+        tones = cPickle.loads(str(row["tones"]))
+        data[time] = {"text": text, "tones": tones}
+    return data
+
+def averageEmotionValues(data):
+    angerTotal = 0
+    disgustTotal = 0
+    fearTotal = 0
+    joyTotal = 0
+    sadnessTotal = 0
+    for time in data:
+        toneDicts = data[time]["tones"]
+        for toneDict in toneDicts:
+            if toneDict["tone_id"] == "anger":
+                angerTotal += toneDict["score"]
+            if toneDict["tone_id"] == "disgust":
+                disgustTotal += toneDict["score"]
+            if toneDict["tone_id"] == "fear":
+                fearTotal += toneDict["score"]
+            if toneDict["tone_id"] == "joy":
+                joyTotal += toneDict["score"]
+            if toneDict["tone_id"] == "sadness":
+                sadnessTotal += toneDict["score"]
+    emotionValues = {"Anger": angerTotal, "Disgust": disgustTotal, "Fear": fearTotal, "Joy": joyTotal, "Sadness": sadnessTotal}
+    for emotion in emotionValues:
+        emotionValues[emotion] /= (len(data) or 1)
+    return emotionValues

@@ -55,17 +55,20 @@
     text-align: center;
     font-size: 20px;
 }
-body {
-  overflow: hidden;
-  margin: 0;
-  font-size: 14px;
-  font-family: "Helvetica Neue", Helvetica;
+body { font: 12px Arial;}
+
+path {
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
 }
 
-#chart {
-  position: absolute;
-  top: 50px;
-  left: 0px;
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
 }
 </style>
 
@@ -76,9 +79,7 @@ body {
     <!-- Intro Header -->
     <header class="intro">
         <div class="animsition">
-            <div id="body">
-            <div id="chart"></div>
-            </div>
+            <svg id="visualisation" width="1000" height="500"></svg>
         </div>
     </header>
 
@@ -104,13 +105,14 @@ body {
     <script src="http://d3js.org/d3.v3.min.js"></script>
 
     <!-- radarjs -->
-    <script src="{{url_for('static', filename="RadarChart.js")}}"></script>
-    <script type=text/javascript>
-      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-    </script>
-    <script type="text/javascript" src="{{url_for('static', filename="RadarChartScript.js")}}"></script>
+    <script src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename="lineGraph.js")}}"></script>
+    <script type="text/javascript">
+                data = receiveData({{entries|tojson}})
+             </script>
     <script>
         $(document).ready(function() {
+
           $(".animsition").animsition({
             inClass: 'fade-in-up',
             outClass: 'fade-out-up',

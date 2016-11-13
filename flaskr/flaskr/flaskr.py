@@ -77,8 +77,6 @@ def show_entries():
 
 @app.route('/add', methods=['POST'])
 def add_entry():
-    if not session.get('logged_in'):
-        abort(401)
     db = get_db()
     text = request.form['text']
     analysis = analyze(text)
@@ -94,26 +92,25 @@ def analyzeWeb():
     db = get_db()
     db.text_factory = str
     cur = db.execute('select text, time, tones from entries order by id desc')
+    return render_template('analyze.html')
+
+@app.route('/line')
+def line():
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
     entries = cur.fetchall()
-    return render_template('analyze.html', entries=all_time_tone_analysis(entries))
+    return render_template('line.html', entries=all_time_tone_analysis(entries))
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    error = None
-    if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
-            error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
-            error = 'Invalid password'
-        else:
-            session['logged_in'] = True
-            flash('You were logged in')
-            return redirect(url_for('show_entries'))
-    return render_template('login.html', error=error)
-
-
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    flash('You were logged out')
-    return redirect(url_for('show_entries'))
+# average over all emotions
+@app.route('/getEmotionVals', methods=['GET'])
+def getEmotionVals():
+    if not session.get('logged_in'):
+        abort(401)
+    db = get_db()
+    db.text_factory = str
+    cur = db.execute('select text, time, tones from entries order by id desc')
+    entries = cur.fetchall()
+    # query all emotion values
+    data = retrieveEmotionData(entries)
+    return json.dumps(averageEmotionValues(data))

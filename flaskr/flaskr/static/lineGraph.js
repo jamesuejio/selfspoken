@@ -4,28 +4,28 @@ $.getJSON($SCRIPT_ROOT + '/getLineVals', function (data) {
 function InitChart(data) {
     console.log(data)
     var data1 = data["Anger"]
+    console.log(data1)
 
 
-    var data2 = [{
-        "sale": "152",
-        "year": "2000"
-    }, {
-        "sale": "189",
-        "year": "2002"
-    }, {
-        "sale": "179",
-        "year": "2004"
-    }, {
-        "sale": "199",
-        "year": "2006"
-    }, {
-        "sale": "134",
-        "year": "2008"
-    }, {
-        "sale": "176",
-        "year": "2010"
-    }];
-
+    // var data2 = [{
+    //     "sale": "152",
+    //     "year": "2000"
+    // }, {
+    //     "sale": "189",
+    //     "year": "2002"
+    // }, {
+    //     "sale": "179",
+    //     "year": "2004"
+    // }, {
+    //     "sale": "199",
+    //     "year": "2006"
+    // }, {
+    //     "sale": "134",
+    //     "year": "2008"
+    // }, {
+    //     "sale": "176",
+    //     "year": "2010"
+    // }];
 
     // Parse the date / time
     var parseDate = d3.time.format("%a %b %d %X %Y").parse;
@@ -42,10 +42,10 @@ function InitChart(data) {
 
         xScale = d3.time.scale().range([MARGINS.left, WIDTH - MARGINS.right]),
 
-        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([134, 215]),
+        yScale = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]),
 
         xAxis = d3.svg.axis()
-        .scale(xScale),
+        .scale(xScale).orient("bottom").ticks(5),
 
         yAxis = d3.svg.axis()
         .scale(yScale)
@@ -64,10 +64,11 @@ function InitChart(data) {
 
     var lineGen = d3.svg.line()
         .x(function(d) {
-            return xScale(d.time);
+            console.log(parseDate(d.time))
+            return xScale(parseDate(d.time));
         })
         .y(function(d) {
-            return yScale(d.count);
+            return yScale(d.count.toString());
         })
         .interpolate("basis");
 
@@ -77,10 +78,10 @@ function InitChart(data) {
         .attr('stroke-width', 2)
         .attr('fill', 'none');
 
-    vis.append('svg:path')
-        .attr('d', lineGen(data2))
-        .attr('stroke', 'blue')
-        .attr('stroke-width', 2)
-        .attr('fill', 'none');
+    // vis.append('svg:path')
+    //     .attr('d', lineGen(data2))
+    //     .attr('stroke', 'blue')
+    //     .attr('stroke-width', 2)
+    //     .attr('fill', 'none');
 
 }

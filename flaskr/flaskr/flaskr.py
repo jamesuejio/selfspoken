@@ -94,6 +94,13 @@ def add_entry():
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
 
+@app.route('/getEmotionVals', methods=['GET'])
+def getEmotionVals():
+    if not session.get('logged_in'):
+        abort(401)
+    db = get_db()
+    
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

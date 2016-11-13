@@ -6,6 +6,24 @@ var colorscale = d3.scale.category10();
 //Legend titles
 // var LegendOptions = ['Smartphone','Tablet'];
 
+var d = []
+
+$('#submit-button').click(function() {
+    var user = $('#txtUsername').val();
+    var pass = $('#txtPassword').val();
+    $.ajax({
+        url: '/getEmotionVals',
+        data: $('form').serialize(),
+        type: 'GET',
+        success: function(response) {
+            console.log(response);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+});
+
 //Data
 var d = [
 	[

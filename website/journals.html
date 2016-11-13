@@ -56,13 +56,57 @@
     text-align: center;
     font-size: 20px;
 }
+
+.boxed {
+  border: 2px solid;
+  border-color: #93a7c6;
+  height: 60px;
+  font-size: 20px;
+}   
+
+.alignleft {
+    float: left;
+    font-size: 20px;
+    padding-left: 5px;
+}
+.alignright {
+    float: right;
+    font-size: 20px;
+    padding-right: 5px;
+}
 </style>
 
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="animsition">
+            <div class="container">
+                <div class="navbar-header">
+                        <a href="journals.html" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000">Journals</a>
+                </div>
 
-    
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                    <ul class="nav navbar-nav">
+                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                        <li class="hidden">
+                            <a href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a href="analyze.html" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Trends</a>
+                        </li>
+                        <li>
+                            <a href="analyze.html" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Aggregations</a>
+                        </li>
+                       
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </div>
+    </nav>
 
     <!-- Intro Header -->
     <header class="intro">
@@ -71,10 +115,43 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-8 col-md-offset-2">
-                            <h1 class="brand-heading">Self spoken</h1>
-                            <textarea class="form-control" id="textarea" style="width: 750px; height: 400px;" placeholder = "How are you feeling today?"></textarea>
-                        
-                            <a href="analyze.html" class="animsition-link" data-animsition-out-class="fade-out-down" data-animsition-out-duration="2000">Submit</a>
+                            <h1 class="brand-heading">Journal</h1>
+                            <div class="boxed">
+                              <div id="textbox", style="clear: both;">
+                                  <p class="alignleft">November 5</p>
+                                  "I HATE GIT..."
+                                  <p class="alignright">Mood: Anger</p>
+                              </div>
+                            </div>
+                            <div class="boxed">
+                             <div id="textbox", style="clear: both;">
+                                  <p class="alignleft">November 6</p>
+                                  "I love poops..."
+                                  <p class="alignright">Mood: Joy</p>
+                              </div>
+                            </div>
+                            <div class="boxed">
+                             <div id="textbox", style="clear: both;">
+                                  <p class="alignleft">November 7</p>
+                                  "School sucks exams suck..."
+                                  <p class="alignright">Mood: Sadness</p>
+                              </div>
+                            </div>
+                            <div class="boxed">
+                             <div id="textbox", style="clear: both;">
+                                  <p class="alignleft">November 8</p>
+                                  "bruhhhhh i shit my pants 2day..."
+                                  <p class="alignright">Mood: Fearful</p>
+                              </div>
+                            </div>
+                            <div class="boxed">
+                             <div id="textbox", style="clear: both;">
+                                  <p class="alignleft">November 9</p>
+                                  "School sucks exams suck..."
+                                  <p class="alignright">Mood: Sadness</p>
+                              </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -104,7 +181,7 @@
     <script>
         $(document).ready(function() {
           $(".animsition").animsition({
-            inClass: 'fade-in-down',
+            inClass: 'fade-in-right',
             outClass: 'fade-out-down',
             inDuration: 1500,
             outDuration: 800,

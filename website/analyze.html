@@ -61,22 +61,53 @@
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="animsition">
+            <div class="container">
+                <div class="navbar-header">
+                        <a href="journals.html" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000">Journals</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                    <ul class="nav navbar-nav">
+                        <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                        <li class="hidden">
+                            <a href="#page-top"></a>
+                        </li>
+                        <li>
+                            <a href="analyze.html" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Trends</a>
+                        </li>
+                        <li>
+                            <a href="analyze.html" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Aggregations</a>
+                        </li>
+                       
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </div>
+    </nav>
 
     <!-- Intro Header -->
     <header class="intro">
         <div class="intro-body">
-            <div class="animsition">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-2">
-                            <h1 class="brand-heading">Analysis</h1>
-                            <img src="img/spiderdiagram.png" alt ="sample" width = "260" height = "260">
-                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="animsition">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading">Analysis</h1>
+                        <img src="img/spiderdiagram.png" alt ="sample" width = "260" height = "260">
+                    </div>
                     </div>
                 </div>
             </div>
+        
         </div>
+
     </header>
+
 
 
     <!-- jQuery -->
@@ -122,6 +153,25 @@
             transition: function(url){ window.location.href = url; }
           });
         });
+    </script>
+
+    <script>
+        document.onkeydown = function(e) {
+        switch (e.keyCode) {
+            case 37:
+                alert('left');
+                break;
+            case 38:
+                alert('up');
+                break;
+            case 39:
+                alert('right');
+                break;
+            case 40:
+                alert('down');
+                break;
+            }
+        };
     </script>
 
 </body>

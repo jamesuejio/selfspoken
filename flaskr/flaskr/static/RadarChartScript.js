@@ -8,8 +8,10 @@ var colorscale = d3.scale.category10();
 //
 // var emotionVals;
 
-$.getJSON($SCRIPT_ROOT + '/getEmotionVals', function (data) {
-  createGraph(data);
+$.getJSON($SCRIPT_ROOT + '/getEmotionVals', {
+	query: "aggregate",
+}, function (data) {
+	createGraph(data);
 });
 
 function createGraph(emotionVals) {

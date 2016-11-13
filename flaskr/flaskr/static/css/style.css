@@ -1,0 +1,40 @@
+::-webkit-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+:-ms-input-placeholder {
+    color: red;
+    text-align: center;
+    font-size: 20px;
+}
+
+.boxed {
+  border: 2px solid;
+  border-color: #93a7c6;
+  height: 60px;
+  font-size: 20px;
+}   
+
+.alignleft {
+    float: left;
+    font-size: 20px;
+    padding-left: 5px;
+}
+.alignright {
+    float: right;
+    font-size: 20px;
+    padding-right: 5px;
+}

@@ -11,7 +11,6 @@ $.getJSON($SCRIPT_ROOT + '/getCurrentData', function (data) {
 });
 
 function showStats(text) {
-	console.log(text)
 	$('#dailystats').append(text);
 };
 

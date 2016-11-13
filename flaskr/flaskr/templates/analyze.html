@@ -79,19 +79,43 @@ body {
   right: 20px;
   /*border: 10px solid blue;*/
   font-size: 30px;
+  padding-top: 30px;
 }
 </style>
 
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
-
+  <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+      <div class="animsition">
+          <div class="container">
+              <div class="navbar-header">
+                  <a href="/" class="animsition-link" data-animsition-out-class="fade-out-left" data-animsition-out-duration="2000" style = "font-size:20px">Self Spoken</a>
+              </div>
+              <!-- Collect the nav links, forms, and other content for toggling -->
+              <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                  <ul class="nav navbar-nav">
+                      <li>
+                        <a href="/journal" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Journals</a>
+                      </li>
+                      <li>
+                          <a href="/analyze" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Most Recent</a>
+                      </li>
+                      <li>
+                          <a href="/aggregations" class="animsition-link" data-animsition-out-class="fade-out-right" data-animsition-out-duration="2000">Aggregations</a>
+                      </li>
+                  </ul>
+              </div>
+              <!-- /.navbar-collapse -->
+          </div>
+          <!-- /.container -->
+      </div>
+  </nav>
     <!-- Intro Header -->
     <header class="intro">
         <div class="animsition">
             <div id="body">
             <div id="chart"></div>
-            <!-- <p> {{entry}} </p> -->
             <div id="dailystats"></div>
             </div>
         </div>
@@ -129,8 +153,8 @@ body {
           $(".animsition").animsition({
             inClass: 'fade-in-up',
             outClass: 'fade-out-up',
-            inDuration: 1500,
-            outDuration: 800,
+            inDuration: 1000,
+            outDuration: 500,
             linkElement: '.animsition-link',
             // e.g. linkElement: 'a:not([target="_blank"]):not([href^="#"])'
             loading: true,
